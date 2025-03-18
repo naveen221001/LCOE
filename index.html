@@ -4,563 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Solar LCOE Calculator</title>
-  <style>
-  /* Solar LCOE Calculator - Professional UI/UX Style
-   * Created: March 18, 2025
-   */
-
-  :root {
-    /* Solar-inspired color palette */
-    --solar-yellow: #f9d71c;
-    --solar-orange: #f9a61a;
-    --solar-blue: #0496ff;
-    --solar-dark-blue: #1d3557;
-    --solar-green: #2ecc71;
-    --solar-red: #e74c3c;
-    
-    /* Neutral colors */
-    --white: #ffffff;
-    --light-gray: #f0f4f8;
-    --med-gray: #ced4da;
-    --dark-gray: #495057;
-    --black: #212529;
-    
-    /* Font families */
-    --font-primary: 'Inter', 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-secondary: 'Montserrat', 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
-    
-    /* Spacing */
-    --space-xs: 0.25rem;
-    --space-sm: 0.5rem;
-    --space-md: 1rem;
-    --space-lg: 1.5rem;
-    --space-xl: 2rem;
-    --space-xxl: 3rem;
-    
-    /* Border radius */
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-lg: 16px;
-    
-    /* Transitions */
-    --transition-fast: 0.15s ease;
-    --transition-med: 0.3s ease;
-  }
-
-  /* Base styles */
-  html {
-    font-size: 16px;
-    box-sizing: border-box;
-  }
-
-  *, *:before, *:after {
-    box-sizing: inherit;
-  }
-
-  body {
-    font-family: var(--font-primary);
-    color: var(--dark-gray);
-    background-color: var(--light-gray);
-    line-height: 1.5;
-    margin: 0;
-    padding: 0;
-  }
-
-  /* Typography */
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-secondary);
-    font-weight: 600;
-    color: var(--solar-dark-blue);
-    margin-top: 0;
-    margin-bottom: var(--space-md);
-  }
-
-  h1 {
-    font-size: 2.5rem;
-    margin-bottom: var(--space-lg);
-  }
-
-  h2 {
-    font-size: 2rem;
-  }
-
-  h3 {
-    font-size: 1.5rem;
-  }
-
-  p {
-    margin-top: 0;
-    margin-bottom: var(--space-md);
-  }
-
-  /* Layout */
-  .container {
-    max-width: 1200px;
-    width: 100%;
-    margin: 0 auto;
-    padding: var(--space-md);
-  }
-
-  .solar-header {
-    background: linear-gradient(135deg, var(--solar-dark-blue), var(--solar-blue));
-    color: var(--white);
-    padding: var(--space-lg) 0;
-    margin-bottom: var(--space-xl);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-
-  .solar-header h1 {
-    color: var(--white);
-    position: relative;
-  }
-
-  .solar-header h1::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 0;
-    width: 60px;
-    height: 4px;
-    background-color: var(--solar-yellow);
-    border-radius: var(--radius-sm);
-  }
-
-  .solar-card {
-    background-color: var(--white);
-    border-radius: var(--radius-md);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    padding: var(--space-lg);
-    margin-bottom: var(--space-lg);
-    transition: transform var(--transition-med), box-shadow var(--transition-med);
-  }
-
-  .solar-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  }
-
-  .solar-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--space-lg);
-  }
-
-  /* Form elements */
-  .form-group {
-    margin-bottom: var(--space-lg);
-  }
-
-  label {
-    display: block;
-    margin-bottom: var(--space-sm);
-    font-weight: 500;
-    color: var(--solar-dark-blue);
-  }
-
-  .form-control {
-    display: block;
-    width: 100%;
-    padding: var(--space-sm) var(--space-md);
-    font-size: 1rem;
-    line-height: 1.5;
-    color: var(--dark-gray);
-    background-color: var(--white);
-    background-clip: padding-box;
-    border: 2px solid var(--med-gray);
-    border-radius: var(--radius-md);
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
-  }
-
-  .form-control:focus {
-    border-color: var(--solar-blue);
-    outline: 0;
-    box-shadow: 0 0 0 3px rgba(4, 150, 255, 0.25);
-  }
-
-  .input-with-icon {
-    position: relative;
-  }
-
-  .input-with-icon .form-control {
-    padding-right: 2.5rem;
-  }
-
-  .input-with-icon .icon {
-    position: absolute;
-    right: var(--space-md);
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--med-gray);
-  }
-
-  .input-group {
-    display: flex;
-    align-items: center;
-  }
-
-  .input-group .form-control {
-    flex: 1;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-
-  .input-group-append {
-    display: flex;
-  }
-
-  .input-group-text {
-    display: flex;
-    align-items: center;
-    padding: var(--space-sm) var(--space-md);
-    font-size: 1rem;
-    font-weight: 500;
-    line-height: 1.5;
-    color: var(--dark-gray);
-    text-align: center;
-    background-color: var(--light-gray);
-    border: 2px solid var(--med-gray);
-    border-left: 0;
-    border-top-right-radius: var(--radius-md);
-    border-bottom-right-radius: var(--radius-md);
-  }
-
-  /* Select styles */
-  select.form-control {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23495057' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right var(--space-md) center;
-    background-size: 16px;
-    padding-right: 2.5rem;
-  }
-
-  /* Buttons */
-  .btn {
-    display: inline-block;
-    font-weight: 500;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    user-select: none;
-    border: 2px solid transparent;
-    padding: var(--space-sm) var(--space-lg);
-    font-size: 1rem;
-    line-height: 1.5;
-    border-radius: var(--radius-md);
-    transition: all var(--transition-fast);
-    cursor: pointer;
-  }
-
-  .btn:focus, .btn:hover {
-    text-decoration: none;
-    outline: 0;
-  }
-
-  .btn-primary {
-    color: var(--white);
-    background-color: var(--solar-blue);
-    border-color: var(--solar-blue);
-  }
-
-  .btn-primary:hover, .btn-primary:focus {
-    background-color: #0382d8;
-    border-color: #0382d8;
-    box-shadow: 0 0 0 3px rgba(4, 150, 255, 0.3);
-  }
-
-  .btn-secondary {
-    color: var(--solar-dark-blue);
-    background-color: var(--white);
-    border-color: var(--solar-dark-blue);
-  }
-
-  .btn-secondary:hover, .btn-secondary:focus {
-    background-color: var(--light-gray);
-    box-shadow: 0 0 0 3px rgba(29, 53, 87, 0.2);
-  }
-
-  .btn-accent {
-    color: var(--white);
-    background-color: var(--solar-orange);
-    border-color: var(--solar-orange);
-  }
-
-  .btn-accent:hover, .btn-accent:focus {
-    background-color: #e89206;
-    border-color: #e89206;
-    box-shadow: 0 0 0 3px rgba(249, 166, 26, 0.3);
-  }
-
-  .btn-block {
-    display: block;
-    width: 100%;
-  }
-
-  /* Solar specific elements */
-  .results-panel {
-    background-color: var(--solar-dark-blue);
-    color: var(--white);
-    border-radius: var(--radius-md);
-    padding: var(--space-lg);
-    margin-top: var(--space-xl);
-  }
-
-  .results-panel h3 {
-    color: var(--white);
-    border-bottom: 2px solid var(--solar-yellow);
-    padding-bottom: var(--space-sm);
-    margin-bottom: var(--space-lg);
-  }
-
-  .result-value {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--solar-yellow);
-    margin-bottom: var(--space-md);
-  }
-
-  .solar-metric {
-    display: flex;
-    align-items: center;
-    margin-bottom: var(--space-md);
-  }
-
-  .solar-metric-icon {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-sm);
-    margin-right: var(--space-md);
-  }
-
-  .solar-metric-value {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--solar-yellow);
-  }
-
-  .solar-metric-label {
-    font-size: 0.875rem;
-    opacity: 0.8;
-  }
-
-  /* Progress indicators */
-  .progress {
-    height: 8px;
-    background-color: var(--light-gray);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    margin-bottom: var(--space-md);
-  }
-
-  .progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, var(--solar-blue), var(--solar-green));
-    border-radius: var(--radius-lg);
-    transition: width var(--transition-med);
-  }
-
-  /* Tooltips */
-  .tooltip {
-    position: relative;
-    display: inline-block;
-    cursor: help;
-  }
-
-  .tooltip .tooltip-text {
-    visibility: hidden;
-    width: 200px;
-    background-color: var(--solar-dark-blue);
-    color: var(--white);
-    text-align: center;
-    border-radius: var(--radius-md);
-    padding: var(--space-sm) var(--space-md);
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0;
-    transition: opacity var(--transition-med);
-    font-size: 0.875rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-
-  .tooltip .tooltip-text::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: var(--solar-dark-blue) transparent transparent transparent;
-  }
-
-  .tooltip:hover .tooltip-text {
-    visibility: visible;
-    opacity: 1;
-  }
-
-  /* Alerts */
-  .alert {
-    padding: var(--space-md);
-    margin-bottom: var(--space-lg);
-    border: 1px solid transparent;
-    border-radius: var(--radius-md);
-  }
-
-  .alert-info {
-    color: var(--solar-dark-blue);
-    background-color: rgba(4, 150, 255, 0.1);
-    border-color: rgba(4, 150, 255, 0.2);
-  }
-
-  .alert-success {
-    color: #155724;
-    background-color: rgba(46, 204, 113, 0.1);
-    border-color: rgba(46, 204, 113, 0.2);
-  }
-
-  .alert-warning {
-    color: #856404;
-    background-color: rgba(249, 166, 26, 0.1);
-    border-color: rgba(249, 166, 26, 0.2);
-  }
-
-  .alert-error {
-    color: #721c24;
-    background-color: rgba(231, 76, 60, 0.1);
-    border-color: rgba(231, 76, 60, 0.2);
-  }
-
-  /* Data visualization */
-  .chart-container {
-    width: 100%;
-    height: 300px;
-    margin-bottom: var(--space-xl);
-  }
-
-  /* Responsive utilities */
-  @media (max-width: 768px) {
-    .solar-grid {
-      grid-template-columns: 1fr;
-    }
-    
-    h1 {
-      font-size: 2rem;
-    }
-    
-    h2 {
-      font-size: 1.75rem;
-    }
-    
-    .solar-card {
-      padding: var(--space-md);
-    }
-    
-    .result-value {
-      font-size: 1.5rem;
-    }
-  }
-
-  /* Animation */
-  @keyframes pulse {
-    0% {
-      box-shadow: 0 0 0 0 rgba(249, 215, 28, 0.4);
-    }
-    70% {
-      box-shadow: 0 0 0 10px rgba(249, 215, 28, 0);
-    }
-    100% {
-      box-shadow: 0 0 0 0 rgba(249, 215, 28, 0);
-    }
-  }
-
-  .pulse {
-    animation: pulse 2s infinite;
-  }
-
-  /* Solar icon classes */
-  .solar-icon {
-    display: inline-block;
-    width: 1em;
-    height: 1em;
-    vertical-align: -0.125em;
-    fill: currentColor;
-  }
-
-  /* Dark mode support */
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --light-gray: #2a2d3e;
-      --med-gray: #3f4356;
-      --dark-gray: #d0d0d0;
-      --white: #1a1c29;
-      --black: #f0f4f8;
-    }
-    
-    body {
-      color: var(--dark-gray);
-      background-color: #161822;
-    }
-    
-    .solar-card {
-      background-color: var(--white);
-    }
-    
-    .form-control {
-      background-color: #262837;
-      color: #e0e0e0;
-      border-color: var(--med-gray);
-    }
-    
-    .form-control:focus {
-      box-shadow: 0 0 0 3px rgba(4, 150, 255, 0.5);
-    }
-    
-    .btn-secondary {
-      background-color: #262837;
-      color: #e0e0e0;
-    }
-    
-    .input-group-text {
-      background-color: #262837;
-      color: #e0e0e0;
-    }
-  }
-  
-  /* Hide results panel by default */
-  .hidden {
-    display: none;
-  }
-  </style>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
   <header class="solar-header">
     <div class="container">
       <h1>Solar LCOE Calculator</h1>
-      <p>Calculate the Levelized Cost of Electricity for your solar investment</p>
+      <p>Calculate the Levelized Cost of Electricity (LCOE) for your solar investment</p>
     </div>
   </header>
-  
+
   <main class="container">
-    <div class="alert alert-info" id="location-alert">
-      Select a location to get started
-    </div>
-    
     <div class="solar-grid">
+      <!-- Calculator Input Panel -->
       <div class="solar-card">
         <h2>System Parameters</h2>
         <form id="lcoe-calculator-form">
-          <!-- Location Selection -->
           <div class="form-group">
             <label for="location">Location</label>
             <select id="location" class="form-control">
@@ -573,154 +33,135 @@
               <option value="custom">Custom Location</option>
             </select>
           </div>
-          
-          <!-- System Size -->
-          <div class="form-group">
-            <label for="system-size">
-              System Size (kW)
-              <span class="tooltip">
-                ?
-                <span class="tooltip-text" id="system-size-tooltip">The power rating of your solar system in kilowatts (kW)</span>
-              </span>
-            </label>
-            <input type="number" id="system-size" class="form-control" placeholder="5" value="5" min="1" max="100" step="0.1" required>
+
+          <div id="location-alert" class="alert alert-info hidden">
+            Selected location information will appear here
           </div>
-          
-          <!-- System Cost -->
+
           <div class="form-group">
-            <label for="system-cost">
-              Total System Cost ($)
-              <span class="tooltip">
-                ?
-                <span class="tooltip-text" id="system-cost-tooltip">The total upfront cost of your solar system before incentives</span>
-              </span>
-            </label>
+            <label for="system-size">System Size (kW)</label>
             <div class="input-with-icon">
-              <input type="number" id="system-cost" class="form-control" placeholder="15000" value="15000" min="1000" required>
+              <input type="number" id="system-size" class="form-control" value="5" min="1" step="0.1" required>
+              <span class="icon">kW</span>
             </div>
           </div>
-          
-          <!-- Incentives -->
+
           <div class="form-group">
-            <label for="incentives">
-              Incentives (%)
-              <span class="tooltip">
-                ?
-                <span class="tooltip-text" id="incentives-tooltip">Tax credits and rebates as a percentage of system cost</span>
-              </span>
-            </label>
-            <div class="input-group">
-              <input type="number" id="incentives" class="form-control" placeholder="26" value="26" min="0" max="100" required>
-              <div class="input-group-append">
-                <span class="input-group-text">%</span>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Annual Production -->
-          <div class="form-group">
-            <label for="annual-production">
-              Annual Production (kWh)
-              <span class="tooltip">
-                ?
-                <span class="tooltip-text" id="annual-production-tooltip">Estimated yearly electricity production in kilowatt-hours</span>
-              </span>
-            </label>
-            <input type="number" id="annual-production" class="form-control" placeholder="7500" value="7500" min="1000" required>
-          </div>
-          
-          <!-- System Lifetime -->
-          <div class="form-group">
-            <label for="system-life">
-              System Lifetime (years)
-              <span class="tooltip">
-                ?
-                <span class="tooltip-text" id="system-life-tooltip">Expected operational lifespan of your solar system</span>
-              </span>
-            </label>
-            <input type="number" id="system-life" class="form-control" placeholder="25" value="25" min="10" max="40" required>
-          </div>
-          
-          <!-- Degradation Rate -->
-          <div class="form-group">
-            <label for="degradation-rate">
-              Annual Degradation Rate (%)
-              <span class="tooltip">
-                ?
-                <span class="tooltip-text" id="degradation-tooltip">Annual decrease in panel efficiency</span>
-              </span>
-            </label>
-            <div class="input-group">
-              <input type="number" id="degradation-rate" class="form-control" placeholder="0.5" value="0.5" min="0" max="5" step="0.1" required>
-              <div class="input-group-append">
-                <span class="input-group-text">%</span>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Discount Rate -->
-          <div class="form-group">
-            <label for="discount-rate">
-              Discount Rate (%)
-              <span class="tooltip">
-                ?
-                <span class="tooltip-text" id="discount-tooltip">Annual rate used to discount future cash flows</span>
-              </span>
-            </label>
-            <div class="input-group">
-              <input type="number" id="discount-rate" class="form-control" placeholder="4" value="4" min="0" max="15" step="0.1" required>
-              <div class="input-group-append">
-                <span class="input-group-text">%</span>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Maintenance Cost -->
-          <div class="form-group">
-            <label for="maintenance-cost">
-              Annual Maintenance Cost ($)
-              <span class="tooltip">
-                ?
-                <span class="tooltip-text" id="maintenance-tooltip">Yearly cost for system maintenance and insurance</span>
-              </span>
-            </label>
+            <label for="system-cost">System Cost ($)</label>
             <div class="input-with-icon">
-              <input type="number" id="maintenance-cost" class="form-control" placeholder="150" value="150" min="0" required>
+              <input type="number" id="system-cost" class="form-control" value="15000" min="1000" step="100" required>
+              <span class="icon">$</span>
             </div>
           </div>
-          
-          <!-- Electricity Rate -->
+
           <div class="form-group">
-            <label for="electricity-rate">
-              Electricity Rate ($/kWh)
+            <label for="incentives">Incentives/Rebates 
               <span class="tooltip">
-                ?
-                <span class="tooltip-text" id="electricity-rate-tooltip">Current cost of electricity from the grid</span>
-              </span>
-            </label>
-            <div class="input-with-icon">
-              <input type="number" id="electricity-rate" class="form-control" placeholder="0.14" value="0.14" min="0.01" step="0.01" required>
-            </div>
-          </div>
-          
-          <!-- Electricity Inflation -->
-          <div class="form-group">
-            <label for="electricity-inflation">
-              Electricity Price Inflation (%)
-              <span class="tooltip">
-                ?
-                <span class="tooltip-text" id="electricity-inflation-tooltip">Annual increase in electricity prices</span>
+                <svg class="solar-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <span id="incentives-tooltip" class="tooltip-text">Include federal, state, and local incentives as a percentage of system cost</span>
               </span>
             </label>
             <div class="input-group">
-              <input type="number" id="electricity-inflation" class="form-control" placeholder="2.5" value="2.5" min="0" max="10" step="0.1" required>
+              <input type="number" id="incentives" class="form-control" value="26" min="0" max="100" step="1" required>
               <div class="input-group-append">
                 <span class="input-group-text">%</span>
               </div>
             </div>
           </div>
-          
-          <!-- Form Buttons -->
+
+          <div class="form-group">
+            <label for="annual-production">Annual Production (kWh)</label>
+            <div class="input-with-icon">
+              <input type="number" id="annual-production" class="form-control" value="7000" min="100" step="100" required>
+              <span class="icon">kWh</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="system-life">System Life (years)</label>
+            <div class="input-with-icon">
+              <input type="number" id="system-life" class="form-control" value="25" min="5" max="40" step="1" required>
+              <span class="icon">yrs</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="degradation-rate">Annual Degradation Rate 
+              <span class="tooltip">
+                <svg class="solar-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <span id="degradation-tooltip" class="tooltip-text">Annual reduction in system output due to panel aging</span>
+              </span>
+            </label>
+            <div class="input-group">
+              <input type="number" id="degradation-rate" class="form-control" value="0.5" min="0" max="5" step="0.1" required>
+              <div class="input-group-append">
+                <span class="input-group-text">%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="discount-rate">Discount Rate 
+              <span class="tooltip">
+                <svg class="solar-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <span id="discount-tooltip" class="tooltip-text">The rate used to calculate the present value of future cash flows</span>
+              </span>
+            </label>
+            <div class="input-group">
+              <input type="number" id="discount-rate" class="form-control" value="4" min="0" max="20" step="0.1" required>
+              <div class="input-group-append">
+                <span class="input-group-text">%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="maintenance-cost">Annual Maintenance Cost ($)</label>
+            <div class="input-with-icon">
+              <input type="number" id="maintenance-cost" class="form-control" value="150" min="0" step="10" required>
+              <span class="icon">$</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="electricity-rate">Electricity Rate ($/kWh)</label>
+            <div class="input-with-icon">
+              <input type="number" id="electricity-rate" class="form-control" value="0.14" min="0.01" step="0.01" required>
+              <span class="icon">$/kWh</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="electricity-inflation">Electricity Price Inflation 
+              <span class="tooltip">
+                <svg class="solar-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <span id="inflation-tooltip" class="tooltip-text">Annual increase in electricity prices</span>
+              </span>
+            </label>
+            <div class="input-group">
+              <input type="number" id="electricity-inflation" class="form-control" value="2.5" min="0" max="10" step="0.1" required>
+              <div class="input-group-append">
+                <span class="input-group-text">%</span>
+              </div>
+            </div>
+          </div>
+
           <div class="form-group">
             <button type="submit" class="btn btn-primary btn-block">Calculate LCOE</button>
           </div>
@@ -729,28 +170,81 @@
           </div>
         </form>
       </div>
-      
+
       <!-- Results Panel -->
       <div class="solar-card results-panel hidden">
-        <h3>LCOE Analysis Results</h3>
+        <h2>LCOE Results</h2>
         
         <div class="solar-metric">
           <div class="solar-metric-icon">
-            <svg class="solar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-              <path fill="currentColor" d="M256 32C114.6 32 0 146.6 0 288c0 99.4 57.6 189.5 147.8 231.2 5.8 2.7 12.5-1.2 13.2-7.4 1.3-10.7 2.7-21.6 4.4-32.7 .7-4.8-1.7-9.5-6-11.8-8.3-4.7-13.8-13.2-13.8-22.9 0-13.9 11.3-25.2 25.2-25.2H192v-16h-12.7c-13.9 0-25.2-11.3-25.2-25.2 0-13.9 11.3-25.2 25.2-25.2H192V352h-12.7C165.5 352 154 340.8 152 326.9c-1.4-9.6 3-19.5 11.7-25 5.2-3.3 8.2-9.3 7.4-15.4-2.1-17.4-3.2-35.1-3.2-52.9 0-13.4 .7-26.6 2.1-39.6 .6-5.5-2.7-10.8-8-12.9C149.5 175.3 138 162.4 136.4 146.7c-1-10.4 4.4-20.5 13.3-26.5 6.2-4.2 9-12 6.5-19.3-12.6-37.2-17.7-77.5-10.5-118.4 1.2-6.5 7.1-11.2 13.8-10.8 108.4 7.6 195.8 95.1 203.4 203.5 .4 6.7-4.3 12.6-10.8 13.8-40.9 7.2-81.2 2.1-118.4-10.5-7.3-2.5-15.1 .3-19.3 6.5-6 8.9-16.1 14.3-26.5 13.3-15.7-1.6-28.6-13.1-34.4-27.6-2.1-5.3-7.4-8.7-12.9-8-13 1.4-26.2 2.1-39.6 2.1-17.7 0-35.4-1.1-52.9-3.2-6.1-.8-12.1 2.2-15.4 7.4-5.5 8.7-15.3 13.1-25 11.7C173.2 358 162 346.5 162 332.7V320H150.3c-13.9 0-25.2-11.3-25.2-25.2s11.3-25.2 25.2-25.2H162V256H150.3c-13.9 0-25.2-11.3-25.2-25.2 0-9.7 5.5-18.2 13.8-22.9 4.3-2.4 6.7-7.1 6-11.8-1.6-11.1-3.1-22-4.4-32.7-.7-6.2-7.4-10.1-13.2-7.4C37.6 198.5-20 288.6-20 388c0 141.4 114.6 256 256 256s256-114.6 256-256S397.4 32 256 32z"/>
+            <svg class="solar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="1" x2="12" y2="23"></line>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
             </svg>
           </div>
           <div>
             <div class="solar-metric-label">Levelized Cost of Electricity</div>
-            <div class="solar-metric-value" id="lcoe-result">-</div>
+            <div class="solar-metric-value" id="lcoe-result">$0.00/kWh</div>
           </div>
         </div>
-        
+
         <div class="solar-metric">
           <div class="solar-metric-icon">
-            <svg class="solar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-              <path fill="currentColor" d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM232 152C232 138.8 242.8 128 256 128s24 10.75 24 24v128c0 13.25-10.75 24-24 24S232 293.3 232 280V152zM256 400c-17.36 0-31.44-14.08-31.44-31.44c0-17.36 14.07-31.44 31.44-31.44s31.44 14.08 31.44 31.44C287.4 385.9 273.4 400 256 400z"/>
+            <svg class="solar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
             </svg>
           </div>
           <div>
-            <div class="solar-metric-label">Payback Perio
+            <div class="solar-metric-label">Payback Period</div>
+            <div class="solar-metric-value" id="payback-period">0.0 years</div>
+          </div>
+        </div>
+
+        <div class="solar-metric">
+          <div class="solar-metric-icon">
+            <svg class="solar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v20"></path>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="solar-metric-label">Total Savings (25 years)</div>
+            <div class="solar-metric-value" id="total-savings">$0.00</div>
+          </div>
+        </div>
+
+        <div class="solar-metric">
+          <div class="solar-metric-icon">
+            <svg class="solar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 6l-9.5 9.5-5-5L1 18"></path>
+              <path d="M17 6h6v6"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="solar-metric-label">Return on Investment</div>
+            <div class="solar-metric-value" id="roi">0.0%</div>
+          </div>
+        </div>
+
+        <div class="chart-container">
+          <canvas id="lcoe-chart"></canvas>
+        </div>
+
+        <div class="chart-container">
+          <canvas id="savings-chart"></canvas>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="solar-header" style="margin-top: 2rem; margin-bottom: 0;">
+    <div class="container">
+      <p>&copy; 2025 Solar LCOE Calculator. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+  <script src="scripts/scripts.js"></script>
+</body>
+</html>
